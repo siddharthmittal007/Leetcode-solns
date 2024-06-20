@@ -1,36 +1,31 @@
 class Solution {
 public:
-    vector<vector<int>> ans;
-    void backtrack(vector<int>& nums,vector<int>& v,vector<bool>& flag)
+    vector<vector<int>> ans; // To store answer permutations
+    
+    void backtrack(vector<int>& nums, int index, vector<int>& v) 
     {
         // Base Case(saving solution)
-        if(v.size()==nums.size())
+        if (index == nums.size()) 
         {
             ans.push_back(v);
             return;
         }
 
-        for(int i=0;i<nums.size();i++)
+        for (int i = index; i < nums.size(); i++) 
         {
-            if(flag[i]==false) // Number status='Unused'
-            {
-                v.push_back(nums[i]);
-                flag[i]=true;
+            v.push_back(nums[i]);
+            swap(nums[i],nums[index]);
 
-                backtrack(nums,v,flag);
+            backtrack(nums,index+1,v);
 
-                v.pop_back();
-                flag[i]=false;
-            }
+            v.pop_back();
+            swap(nums[i],nums[index]);
+            
         }
     }
     vector<vector<int>> permute(vector<int>& nums) {
-        vector<bool> flag(nums.size(),false);   // To store status(Used/Unused)
-                                                // of number
-        
-        vector<int> v;                          // To store permutations
-        
-        backtrack(nums,v,flag);
-        return(ans);
+        vector<int> v;              // To store permutations
+        backtrack(nums,0,v);
+        return (ans);
     }
 };
