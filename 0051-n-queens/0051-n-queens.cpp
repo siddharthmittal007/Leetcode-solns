@@ -1,76 +1,65 @@
 class Solution {
 public:
-    vector<bool> column;            // To store occupancy of columns
-   
-    vector<bool> TL_to_BR_diagonal; // To store occupancy of diagonal
-                                    // (TL to BR)
-    
-    vector<bool> TR_to_BL_diagonal; // To store occupancy of diagonal
-                                    // (TR to BL)
-
-    vector<vector<string>> ans;     // To store answer board states
-
-    bool isValid(int row,int col,int n)
+    vector<vector<string>> ans;
+    bool isValid(vector<string>& v,int index,int n)
     {
-        int c=col;
-        int d1=row-col+(n-1);
-        int d2=row+col;;
+        int row=v.size(), column=index; // coordinates of queen to be added
 
-        if  (column[c]==true || TL_to_BR_diagonal[d1]==true || 
-            TR_to_BL_diagonal[d2]==true)
+        int col=column;         // To check if queen in same column
+        int col_d1=column-row;  // To check if queen on same diagonal(TL to BR)
+        int col_d2=row+column;  // To check if queen on same diagonal(TR to BL)
+        
+        // Checking each row for attacking queen
+        for(int i=0;i<row;i++)
         {
-            return(false); // Attacking queen
+            if(v[i][col]=='Q')
+            {
+                return(false); // Queen in same column
+            }
+
+            if(col_d1+i>=0 && v[i][col_d1+i]=='Q')
+            {
+                return(false); // Queen on same diagonal(TL to BR)
+            }
+            
+
+            if(col_d2-i<n && v[i][col_d2-i]=='Q')
+            {
+                return(false); // Queen on same diagonal(TR to BL)
+            }
         }
+        
         return(true); // No queen attacking
     }
     
-    void backtrack(int n,vector<string>& board,int row)
+    void backtrack(int n,vector<string>& v,string& s)
     {
         // Base Case(saving solution)
-        if(row==n)
+        if(v.size()==n)
         {
-            ans.push_back(board);
+            ans.push_back(v);
             return;
         }
         
         // Trying all possible positions of queen in current row
         for(int i=0;i<n;i++)
         {
-            if(isValid(row,i,n))
+            if(isValid(v,i,n))
             {
-                board[row][i]='Q';                      // Place queen on board
+                s[i]='Q';           // Row with queen at (i+1)th position
+                v.push_back(s);
+                s[i]='.';
                 
-                column[i]=true;                         // Indicate column occupancy
-                TL_to_BR_diagonal[(row-i)+(n-1)]=true;  // Indicate diagonal occupancy
-                                                        // (TL to BR)
-                TR_to_BL_diagonal[row+i]=true;          // Indicate diagonal occupancy
-                                                        // (TR to BL)
-
-                
-                backtrack(n,board,row+1);               // Proceed to next row
-
-
-                board[row][i]='.';                      // Undo queen placement
-                
-                column[i]=false;                        // Undo column occupancy
-                TL_to_BR_diagonal[(row-i)+(n-1)]=false; // Undo diagonal occupancy
-                TR_to_BL_diagonal[row+i]=false;         // Undo diagonal occupancy
-
+                backtrack(n,v,s);
+                v.pop_back();
             }            
 
         }
     }
     vector<vector<string>> solveNQueens(int n) {
-        string s(n,'.');            // Empty row on board
-        vector<string> board(n,s);  // Empty board
-
-        // Initializing occupancy vectors
-        column = vector<bool>(n,false);
-        TL_to_BR_diagonal = vector<bool>(2*n-1,false);
-        TR_to_BL_diagonal = vector<bool>(2*n-1,false);
-        
-        backtrack(n,board,0);       // Begin with row '0'
-        
-        return(ans);                // Return all possible board states
+        vector<string> v;
+        string s(n,'.');
+        backtrack(n,v,s);
+        return(ans);
     }
 };
