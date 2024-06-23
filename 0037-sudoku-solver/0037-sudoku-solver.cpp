@@ -1,6 +1,6 @@
 class Solution {
 public:    
-    bool backtrack(vector<vector<char>>& board,int index,vector<vector<bool>>& row,vector<vector<bool>>& column,vector<vector<bool>>& square)
+    bool backtrack(vector<vector<char>>& board,int index,vector<int>& row,vector<int>& column,vector<int>& square)
     {
         if(index==9*9) 
         {
@@ -20,11 +20,13 @@ public:
         // Checking each digit from 1-9 for valid placement
         for(int i=0;i<9;i++)
         {
-            if(row[r][i]==false && column[c][i]==false && square[s][i]==false)
+            if((row[r]&(1<<i))==0 && (column[c]&(1<<i))==0 && (square[s]&(1<<i))==0)
             {
                 // Placement valid
                 board[r][c]='1'+i;
-                row[r][i]=column[c][i]=square[s][i]=true;
+                row[r]|=1<<i;
+                column[c]|=1<<i;
+                square[s]|=1<<i;
 
                 if(backtrack(board,index+1,row,column,square)==true)
                 {
@@ -32,7 +34,9 @@ public:
                 }
             
                 board[r][c]='.';    
-                row[r][i]=column[c][i]=square[s][i]=false;
+                row[r]&=~(1<<i);
+                column[c]&=~(1<<i);
+                square[s]&=~(1<<i);
             }
         }
 
@@ -40,10 +44,11 @@ public:
     }
     
     void solveSudoku(vector<vector<char>>& board) {
-        // Vectors to hold occupancy of digits by rows, columns and squares
-        vector<vector<bool>> row(9,vector<bool>(9,false));
-        vector<vector<bool>> column(9,vector<bool>(9,false));
-        vector<vector<bool>> square(9,vector<bool>(9,false));
+        // Vectors of integers to hold occupancy of digits by rows, columns
+        // and squares in integer bits
+        vector<int> row(9,0);
+        vector<int> column(9,0);
+        vector<int> square(9,0);
         
         // Marking occurence of digits in given filled cells
         for(int i=0;i<9;i++)
@@ -52,9 +57,9 @@ public:
             {
                 if(board[i][j]!='.')
                 {
-                    row[i][board[i][j]-'1']=true;
-                    column[j][board[i][j]-'1']=true;
-                    square[i-(i%3)+j/3][board[i][j]-'1']=true;
+                    row[i]|=(1<<board[i][j]-'1');
+                    column[j]|=(1<<board[i][j]-'1');
+                    square[3*(i/3)+j/3]|=(1<<board[i][j]-'1');
                 }
                 
             }
