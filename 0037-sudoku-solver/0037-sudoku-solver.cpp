@@ -20,23 +20,20 @@ public:
         // Checking each digit from 1-9 for valid placement
         for(int i=0;i<9;i++)
         {
-            if(row[r][i]==true || column[c][i]==true || square[s][i]==true)
+            if(row[r][i]==false && column[c][i]==false && square[s][i]==false)
             {
-                continue; // Placement invalid
-            }
+                // Placement valid
+                board[r][c]='1'+i;
+                row[r][i]=column[c][i]=square[s][i]=true;
 
-            // Placement valid
-            board[r][c]='1'+i;
-            row[r][i]=column[c][i]=square[s][i]=true;
-
-            if(backtrack(board,index+1,row,column,square)==true)
-            {
-                return(true);
+                if(backtrack(board,index+1,row,column,square)==true)
+                {
+                    return(true);
+                }
+            
+                board[r][c]='.';    
+                row[r][i]=column[c][i]=square[s][i]=false;
             }
-            
-            board[r][c]='.';    
-            row[r][i]=column[c][i]=square[s][i]=false;
-            
         }
 
         return(false);
