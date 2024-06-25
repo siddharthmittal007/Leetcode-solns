@@ -3,19 +3,7 @@ public:
     
     vector<string> ans; // To store possible sentences
 
-    bool checkWord(string& s,vector<string>& wordDict,int word,int index)
-    {
-        for(int i=0;i<wordDict[word].size();i++)
-        {
-            if(index+i==s.size() || s[index+i]!=wordDict[word][i])
-            {
-                return(false);
-            }
-        }
-        return(true);
-    }
-
-    void backtrack(string& s,vector<string>& wordDict,vector<string>& v,int index)
+    void backtrack(string& s,unordered_set<string>& ust,vector<string>& v,int index)
     {
         if(index==s.size()) // Valid sentence
         {
@@ -32,21 +20,28 @@ public:
             return;
         }
         
-        // Checking each word in dictionary if starting at 'index'
-        for(int i=0;i<wordDict.size();i++)
+        // Checking substrings starting 'index' for match with word in dictionary
+        for(int i=index;i<s.size();i++)
         {
-            if(checkWord(s,wordDict,i,index))
+            if(ust.count(s.substr(index,i-index+1)))
             {
-                v.push_back(wordDict[i]);
-                backtrack(s,wordDict,v,index+wordDict[i].length());
+                v.push_back(s.substr(index,i-index+1));
+                backtrack(s,ust,v,i+1);
                 v.pop_back();
             }
         }
     }
     
     vector<string> wordBreak(string s, vector<string>& wordDict) {
-        vector<string> v; // To store words part of valid sentence
-        backtrack(s,wordDict,v,0); 
+        vector<string> v;               // To store words part of valid sentence
+        
+        unordered_set<string> ust;      // Unordered set to store words in dictionary
+        for(int i=0;i<wordDict.size();i++)
+        {
+            ust.insert(wordDict[i]);
+        }
+        
+        backtrack(s,ust,v,0); 
         return(ans);
     }
 };
