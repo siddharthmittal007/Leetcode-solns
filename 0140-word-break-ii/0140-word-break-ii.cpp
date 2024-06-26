@@ -3,45 +3,44 @@ public:
     
     vector<string> ans; // To store possible sentences
 
-    void backtrack(string& s,unordered_set<string>& ust,vector<string>& v,int index)
+    void backtrack(string& s,unordered_set<string>& ust,string& snt,int index)
     {
-        if(index==s.size()) // Valid sentence
+        if(index==s.size()) 
         {
-            // Creating the sentence string 'snt'
-            string snt;
-            for(int i=0;i<v.size();i++)
-            {
-                snt.append(v[i]);
-                snt.append(1,' ');
-            }
-            snt.pop_back();
-            
-            ans.push_back(snt); // Adding valid sentence to solution
+            ans.push_back(snt); // Adding current sentence to solution
             return;
         }
         
         // Checking substrings starting 'index' for match with word in dictionary
         for(int i=index;i<s.size();i++)
         {
-            if(ust.count(s.substr(index,i-index+1)))
+            if(ust.find(s.substr(index,i-index+1))!=ust.end())
             {
-                v.push_back(s.substr(index,i-index+1));
-                backtrack(s,ust,v,i+1);
-                v.pop_back();
+                int len=snt.length(); 
+                // Appending word to sentence
+                if(!snt.empty())
+                {
+                    snt+=" "; // Adding space
+                }
+                snt+=s.substr(index,i-index+1);
+                backtrack(s,ust,snt,i+1);
+            
+                // Restoring to original string
+                snt.erase(len);
             }
         }
     }
     
     vector<string> wordBreak(string s, vector<string>& wordDict) {
-        vector<string> v;               // To store words part of valid sentence
+        // String to store current sentence
+        string snt; 
+
+        // Convert dictionary words to a set for O(1) lookup
+        unordered_set<string> ust(wordDict.begin(),wordDict.end());
         
-        unordered_set<string> ust;      // Unordered set to store words in dictionary
-        for(int i=0;i<wordDict.size();i++)
-        {
-            ust.insert(wordDict[i]);
-        }
+        // Start backtracking process
+        backtrack(s,ust,snt,0); 
         
-        backtrack(s,ust,v,0); 
         return(ans);
     }
 };
