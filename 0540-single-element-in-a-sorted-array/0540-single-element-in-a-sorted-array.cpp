@@ -8,29 +8,22 @@ public:
         {
             int mid=low+(high-low)/2;
 
-            if  ((mid-low)%2==0 && nums[mid]==nums[mid-1])
+            if(mid%2==1)
             {
-                high=mid-2;         // Element in first half
+                mid--;      // Making 'mid' always even 
             }
-            else if((mid-low)%2==1 && nums[mid]==nums[mid+1])
+
+            if(nums[mid]==nums[mid+1])
             {
-                high=mid-1;         // Element in first half
-            }
-            else if ((mid-low)%2==0 && nums[mid]==nums[mid+1])
-            {
-                low=mid+2;          // Element in second half
-            }
-            else if((mid-low)%2==1 && nums[mid]==nums[mid-1])
-            {
-                low=mid+1;          // Element in second half
+                low=mid+2;  // Element in second half
             }
             else
             {
-                return(nums[mid]);   // Element found
+                high=mid;   // Element in first half
             }
         }
 
-        return(nums[low]);          // Element found
+        return(nums[low]);     
         
     }
 };
