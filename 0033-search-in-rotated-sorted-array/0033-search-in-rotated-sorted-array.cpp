@@ -1,44 +1,49 @@
 class Solution {
 public:
-    int search(vector<int>& nums, int target) {
-        // Binary search
+    int findPivot(vector<int>& nums)
+    {
         int low=0,high=nums.size()-1;
-        while(low<=high)
+        while(low<high)
         {
             int mid=low+(high-low)/2;
-
-            if(nums[mid]==target)
+            if(nums[low]<=nums[high])
             {
-                return(mid);    // 'target' found
+                return(low);
             }
-
-            else if(nums[low]<=nums[mid])   // First half sorted
+            else if(nums[low]<=nums[mid])
             {
-                if(target>=nums[low] && target<nums[mid])
-                {
-                    high=mid-1;    
-                }
-                else 
-                {
-                    low=mid+1;      
-                } 
+                low=mid+1;
             }
-            
-            else    // (nums[mid]<nums[low]) i.e. Second half sorted
+            else    
             {
-                if(target<=nums[high] && target>nums[mid])
-                {
-                    low=mid+1;
-                }
-                else   
-                {
-                    high=mid-1;
-                }
+                high=mid;
             }
         }
 
-        return(-1);     // 'target' not found
+        return(low);
+    }
 
+    int search(vector<int>& nums, int target) {
+        int pivot=findPivot(nums);
+        
+        int index;
+        if(target>=nums[0])
+        {
+            index=lower_bound(nums.begin(),nums.begin()+pivot,target)-nums.begin();
+        }
+        else
+        {
+            index=lower_bound(nums.begin()+pivot,nums.end(),target)-nums.begin();
+        }
+
+        if(index==nums.size() || nums[index]!=target)
+        {
+            return(-1);
+        }
+        else
+        {
+            return(index);
+        }
         
     }
 };
