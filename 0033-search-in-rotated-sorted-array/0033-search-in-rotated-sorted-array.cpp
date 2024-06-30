@@ -8,41 +8,43 @@ public:
             int mid=low+(high-low)/2;
             if(nums[low]<=nums[high])
             {
-                return(low);
+                return(low);    // Pivot at 'low'
             }
             else if(nums[low]<=nums[mid])
             {
-                low=mid+1;
+                low=mid+1;      // Pivot in second half
             }
             else    
             {
-                high=mid;
+                high=mid;       // Pivot in first half
             }
         }
 
-        return(low);
+        return(low);            // Pivot at 'low'
     }
 
     int search(vector<int>& nums, int target) {
         int pivot=findPivot(nums);
         
         int index;
-        if(pivot!=0 && target>=nums[0])
+        if(pivot!=0 && target>=nums[0]) // 'target' in first segment
         {
-            index=lower_bound(nums.begin(),nums.begin()+pivot,target)-nums.begin();
+            index   =lower_bound(nums.begin(),nums.begin()+pivot,target)
+                    -nums.begin();
         }
-        else
+        else                            // 'target' in second segment
         {
-            index=lower_bound(nums.begin()+pivot,nums.end(),target)-nums.begin();
+            index   =lower_bound(nums.begin()+pivot,nums.end(),target)
+                    -nums.begin();
         }
 
         if(index==nums.size() || nums[index]!=target)
         {
-            return(-1);
+            return(-1);                 // 'target' not found
         }
         else
         {
-            return(index);
+            return(index);              // 'target' found at 'index'
         }
         
     }
