@@ -3,7 +3,7 @@ public:
     int findPivot(vector<int>& nums)
     {
         int low=0,high=nums.size()-1;
-        while(low<high)
+        while(low<=high)
         {
             int mid=low+(high-low)/2;
             if(nums[low]<=nums[high])
@@ -20,7 +20,7 @@ public:
             }
         }
 
-        return(low);            // Pivot at 'low'
+        return(0);              // Dummy return
     }
 
     int search(vector<int>& nums, int target) {
