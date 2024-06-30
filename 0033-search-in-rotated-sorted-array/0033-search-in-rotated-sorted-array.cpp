@@ -27,7 +27,7 @@ public:
         int pivot=findPivot(nums);
         
         int index;
-        if(target>=nums[0])
+        if(pivot!=0 && target>=nums[0])
         {
             index=lower_bound(nums.begin(),nums.begin()+pivot,target)-nums.begin();
         }
