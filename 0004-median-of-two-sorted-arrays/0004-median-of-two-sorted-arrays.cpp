@@ -10,20 +10,21 @@ public:
         // Successively halving 'k' at each step (by covering removed half)
         // and increasing lower bounds
         while(k>0)
-        {
-            int half=k-k/2;
+        { 
             if(low1==m-1)           // No more elements in 'nums1'
             {
-                low2+=half;
-                k-=half;
+                low2+=k;
+                k=0;
             }
             else if(low2==n-1)      // No more elements in 'nums2'            
             {
-                low1+=half;
-                k-=half;
+                low1+=k;
+                k=0;
             }
             else
             {
+                int half=k-k/2;
+
                 int ind1=min(m-1,low1+half);
                 int ind2=min(n-1,low2+half);
                 
