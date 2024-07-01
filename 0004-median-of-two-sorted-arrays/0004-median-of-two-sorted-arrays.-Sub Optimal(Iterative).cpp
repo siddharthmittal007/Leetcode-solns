@@ -1,11 +1,9 @@
 class Solution {
 public:
-    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+    int solve(vector<int>& nums1, vector<int>& nums2,int k) {
         int m=nums1.size(),n=nums2.size();  // Sizes
         
         int low1=-1,low2=-1;                // Lower index bounds on vectors
-
-        int k=(m+n+1)/2;                    // Position of (first)median element
 
         // Successively halving 'k' at each step (by covering removed half)
         // and increasing lower bounds
@@ -41,53 +39,27 @@ public:
             }
         }
 
-        if((m+n)%2==1)      // Total number of elements are odd
+        if(low1==-1 || low2==-1)
         {
-            if(low1==-1)
-            {
-                return(nums2[low2]);
-            }
-            else if(low2==-1)
-            {
-                return(nums1[low1]);
-            }
-            else
-            {
-                return(max(nums1[low1],nums2[low2]));
-            }
+            return(low1==-1?nums2[low2]:nums1[low1]);
         }
-        else                // Total number of elements are even
+        else
         {
-            double first,second;
-            if(low1==-1)
-            {
-                first=nums2[low2];
-            }
-            else if(low2==-1)
-            {
-                first=nums1[low1];
-            }
-            else
-            {
-                first=max(nums1[low1],nums2[low2]);
-            }
+            return(max(nums1[low1],nums2[low2]));
+        }
+    }
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        int m=nums1.size(),n=nums2.size();  // Sizes
 
-            low1++;
-            low2++;
-            if(low1==m)
-            {
-                second=nums2[low2];
-            }
-            else if(low2==n)
-            {
-                second=nums1[low1];
-            }
-            else
-            {
-                second=min(nums1[low1],nums2[low2]);
-            }
+        int k=(m+n+1)/2;                    // Position of (first)median element
 
-            return((first+second)/2);
+        if((m+n)%2==1)
+        {
+            return(1.0*solve(nums1,nums2,k));
+        }
+        else
+        {
+            return((1.0*(solve(nums1,nums2,k)+solve(nums1,nums2,k+1)))/2);
         }
     }
 };
