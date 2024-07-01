@@ -1,15 +1,12 @@
 class Solution {
 public:
-    int m,n;
     double solve(vector<int>& nums1,int low1,vector<int>& nums2,int low2,int k)
     {   
-        if(low1==m)
+        int m=nums1.size(),n=nums2.size();  // Sizes
+        
+        if(low1==m || low2==n)
         {
-            return(nums2[low2+k-1]);
-        }
-        else if(low2==n)
-        {
-            return(nums1[low1+k-1]);
+            return(low1==m?nums2[low2+k-1]:nums1[low1+k-1]);
         }
         else
         {
@@ -35,16 +32,15 @@ public:
     }
 
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
-        m=nums1.size();
-        n=nums2.size();
+        int m=nums1.size(),n=nums2.size();  // Sizes
+    
+        int k=(m+n+1)/2;                    // Position of(first)median element
 
-        int k=(m+n+1)/2;
-
-        if((m+n)%2==1)
+        if((m+n)%2==1)                      // Odd number of elements
         {
             return(solve(nums1,0,nums2,0,k));
         }
-        else
+        else                                // Even number of elements                                                
         {
             return((solve(nums1,0,nums2,0,k)+solve(nums1,0,nums2,0,k+1))/2);
         }
