@@ -1,48 +1,67 @@
 class Solution {
 public:
-    int solve(vector<int>& nums1,int low1,vector<int>& nums2,int low2,int k)
+    int solve(vector<int>& nums1,vector<int>& nums2,int k)
     {   
         int m=nums1.size(),n=nums2.size();  // Sizes
         
-        if(low1==m || low2==n)
+        int low=0,high=m-1;
+        while(low<=high)
         {
-            return(low1==m?nums2[low2+k-1]:nums1[low1+k-1]);
-        }
-        else
-        {
-            if(k==1)
-            {
-                return(nums1[low1]<=nums2[low2]?nums1[low1]:nums2[low2]);
-            }
-            int half=k/2;
-            int ind1=min(m-1,low1+half-1);
-            int ind2=min(n-1,low2+half-1);
+            int mid=low+(high-low)/2;
+            int FL=mid;
+            int FR=FL+1;
+            int SL=k-mid-2;
+            int SR=SL+1;
 
-            if(nums1[ind1]<=nums2[ind2])
+            if(SL>=n)
             {
-                k-=ind1-low1+1;
-                return(solve(nums1,ind1+1,nums2,low2,k));
+                low=mid+1;
             }
-            else
+            else if(SL<0)
             {
-                k-=ind2-low2+1;
-                return(solve(nums1,low1,nums2,ind2+1,k));
+                if(n!=0 && nums2[0]<nums1[FL])
+                high=mid-1;
+                else
+                {
+                    return(nums1[FL]);
+                }
             }
-        }
+            else if ((SR==n || nums1[FL]<=nums2[SR]) &&
+                    (FR==m || nums2[SL]<=nums1[FR]))
+            {
+                return(max(nums1[FL],nums2[SL]));   // Element found
+            }
+            else if(SR!=n && nums1[FL]>nums2[SR])
+            {
+                high=mid-1;
+            }
+            else    //(FR!=m && nums2[SL]>nums1[FR])
+            {
+                low=mid+1;
+            }
+            
+        }  
+        return(0); 
     }
 
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        // Ensuring 'nums1' of lesser(or equal) size to 'nums2'
+        if(nums1.size()>nums2.size())
+        {
+            return(findMedianSortedArrays(nums2,nums1));
+        }
+        
         int m=nums1.size(),n=nums2.size();  // Sizes
     
         int k=(m+n+1)/2;                    // Position of(first)median element
 
         if((m+n)%2==1)                      // Odd number of elements
         {
-            return(1.0*solve(nums1,0,nums2,0,k));
+            return(1.0*solve(nums1,nums2,k));
         }
         else                                // Even number of elements                                                
         {
-            return((1.0*(solve(nums1,0,nums2,0,k)+solve(nums1,0,nums2,0,k+1)))/2);
+            return((1.0*(solve(nums1,nums2,k)+solve(nums1,nums2,k+1)))/2);
         }
     }
 };
