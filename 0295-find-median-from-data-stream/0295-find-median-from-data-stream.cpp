@@ -8,36 +8,14 @@ public:
     
     void addNum(int num) 
     {
-        if(max_pq.size()==0 && min_pq.size()==0)    // No elements
+        max_pq.push(num);
+        min_pq.push(max_pq.top());
+        max_pq.pop();
+        if(max_pq.size()<min_pq.size())
         {
-            max_pq.push(num);
+            max_pq.push(min_pq.top());
+            min_pq.pop();
         }
-        else if(max_pq.size()==min_pq.size())       // Heaps of equal size
-        {
-            if(min_pq.top()>=num)
-            {
-                max_pq.push(num);
-            }
-            else
-            {
-                max_pq.push(min_pq.top());
-                min_pq.pop();
-                min_pq.push(num);
-            }
-        }
-        else                                        // Max Heap has greater size
-        {
-            if(num>=max_pq.top())
-            {
-                min_pq.push(num);
-            }
-            else
-            {
-                min_pq.push(max_pq.top());
-                max_pq.pop();
-                max_pq.push(num);   
-            }
-        }  
     }
     
     double findMedian() 
