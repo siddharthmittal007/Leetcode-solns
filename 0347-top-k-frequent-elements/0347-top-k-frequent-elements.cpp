@@ -7,39 +7,31 @@ public:
             return(A.second<B.second);
         }
     };
-    
+
     vector<int> topKFrequent(vector<int>& nums, int k) {
-        // Inserting elements to unordered multiset
-        unordered_multiset<int> ums;
+        // Inserting elements to unordered map 
+        // and maintaining frequency count of element
+        unordered_map<int,int> ump;
         for(int i=0;i<nums.size();i++)
         {
-            ums.insert(nums[i]);
+            if(ump.find(nums[i])==ump.end())
+            {
+                ump.insert({nums[i],1});
+            }
+            else
+            {
+                ump.at(nums[i])++;
+            }
         }
 
         // Max heap on key 'frequency' of elements
         typedef pair<int,int> pii;
-        priority_queue<pii,vector<pii>,comp> pq;
+        priority_queue<pii,vector<pii>,comp> pq(ump.begin(),ump.end());
 
-        // Inserting (element,frequency) pairs to 'pq'
-        for(auto itr=ums.begin();itr!=ums.end();)
-        {
-            int val=*itr;
-            int cnt=ums.count(val);
-            pq.push({val,cnt});
-            
-            // Moving iterator to next distinct element
-            while(cnt)
-            {
-                itr++;
-                cnt--;
-            }
-        }
-
-        
         vector<int> ans;    // vector to store 'k' most frequent elements
 
         // Obtaining 'k' most frequent elements
-        while(k--)
+        for(int i=1;i<=k;i++)
         {
             ans.push_back(pq.top().first);
             pq.pop();
