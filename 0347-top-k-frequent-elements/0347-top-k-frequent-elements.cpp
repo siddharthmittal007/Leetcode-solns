@@ -43,3 +43,5 @@ public:
         return(ans);        // Return 'k' most frequent elements
     }
 };
+
+// T.C=O(NLogK) ;   S.C=O(N)
