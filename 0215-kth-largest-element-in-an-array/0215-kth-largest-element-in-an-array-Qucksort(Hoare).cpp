@@ -40,3 +40,6 @@ public:
         return(nums[k-1]);  // Return 'k'th largest element
     }
 };
+
+
+// T.C=O(N^2)-worst case, O(N)-average case    ;    S.C=O(N)-worst case, O(LogN)-average case
