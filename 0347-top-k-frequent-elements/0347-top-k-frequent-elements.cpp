@@ -4,7 +4,7 @@ public:
     struct comp{
         bool operator()(pair<int,int> A,pair<int,int> B)
         {
-            return(A.second<B.second);
+            return(A.second>B.second);
         }
     };
 
@@ -14,19 +14,22 @@ public:
         unordered_map<int,int> ump;
         for(int i=0;i<nums.size();i++)
         {
-            if(ump.find(nums[i])==ump.end())
-            {
-                ump.insert({nums[i],1});
-            }
-            else
-            {
-                ump.at(nums[i])++;
-            }
+            ump[nums[i]]++;
         }
 
-        // Max heap on key 'frequency' of elements
+        // Min heap on key 'frequency' of elements
         typedef pair<int,int> pii;
-        priority_queue<pii,vector<pii>,comp> pq(ump.begin(),ump.end());
+        priority_queue<pii,vector<pii>,comp> pq;
+
+        // Maintaining 'k' most frequent elements in 'pq'
+        for (auto i:ump)
+        {
+            pq.push(i);
+            if(pq.size()>k)
+            {
+                pq.pop();
+            }
+        }   
 
         vector<int> ans;    // vector to store 'k' most frequent elements
 
