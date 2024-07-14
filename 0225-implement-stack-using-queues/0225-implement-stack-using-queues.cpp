@@ -6,25 +6,34 @@ public:
     }
     
     void push(int x) {
-        int k=q1.size();
-        q1.push(x);                 // Place stack 'top' at queue 'back'
-            
-        for(int i=1;i<=k;i++)       // Bring stack 'top' to queue 'front'
+        q1.push(x);      
+    }
+    
+    int pop() {
+        // Bringing stack 'top' to queue front 
+        for(int i=1;i<=q1.size()-1;i++)        
         {
             q1.push(q1.front());
             q1.pop();
         }
-    }
-    
-    int pop() {
-        int temp=q1.front();    // stack 'top' at queue front
+
+        int temp=q1.front();
         q1.pop();
-        return(temp);           // Returning 'top' element
-    
+        return(temp);           // Return stack 'top'
     }
     
     int top() {
-        return(q1.front());       // stack 'top' at queue front
+        // Bringing stack 'top' to queue front 
+        for(int i=1;i<=q1.size()-1;i++)        
+        {
+            q1.push(q1.front());
+            q1.pop();
+        }
+        
+        int temp=q1.front();
+        q1.pop();
+        q1.push(temp);
+        return(temp);           // Return stack 'top'
     }
     
     bool empty() {
@@ -37,10 +46,10 @@ public:
 };
 
 // PUSH
-// T.C=O(N) ;   S.C=O(1)
+// T.C=O(1) ;   S.C=O(1)
 
 // POP
-// T.C=O(1) ;   S.C=O(1)
+// T.C=O(N) ;   S.C=O(1)
 
 /**
  * Your MyStack object will be instantiated and called as such:
