@@ -2,11 +2,16 @@ class MyQueue {
 public:
     stack<int> s1;
     stack<int> s2;
+    int front;
     
     MyQueue() {     
     }
     
     void push(int x) {
+        if(s1.empty()==true)
+        {
+            front=x;
+        }
         s1.push(x);             // Push to 's1'
     }
     
@@ -27,26 +32,15 @@ public:
     }
     
     int peek() {
-        if(s2.size()==0)
+        if(s2.empty()==false)
         {
-            // Tranferring elements from 's1' to 's2'
-            while(s1.size()!=0)
-            {
-                s2.push(s1.top());
-                s1.pop();
-            }
+            return(s2.top());   // queue 'front' at 's2' top
         }     
-        return(s2.top());       // queue 'front' at 's2' top
-        
+        return(front);          // queue front at bottom of 's1'    
     }
     
     bool empty() {
-        if(s1.size()==0 && s2.size()==0)
-        {
-            return(true);       // Queue empty
-        }
-        return(false);          // Queue non-empty
-        
+        return(s1.empty()==true && s2.empty()==true);
     }
 };
 
