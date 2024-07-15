@@ -24,18 +24,19 @@ public:
         {
             if(s[i]=='(' || s[i]=='{' || s[i]=='[')
             {
-                stk.push(s[i]);
+                stk.push(s[i]);     // Push opening bracket
             }
             else if(stk.empty()==false && stk.top()==openBracket(s[i]))
             {
-                stk.pop();
+                stk.pop();          // Pop out matching opening bracket
             }
-            else
+            else        // 'Closing bracket' mismatch with last open 'opening bracket'
             {
                 return(false);      // Invalid parenthesis
             }
         }
 
-        return(stk.empty()==true);
+        return(stk.empty()==true);  // Valid parenthesis if stack empty,
+                                    // else invalid(Unclosed open brackets)
     }
 };
