@@ -68,6 +68,8 @@ public:
 // POP
 // T.C=O(1) ;   S.C=O(1)
 
+// OVERALL S.C=O(N)
+
 /**
  * Your MyStack object will be instantiated and called as such:
  * MyStack* obj = new MyStack();
