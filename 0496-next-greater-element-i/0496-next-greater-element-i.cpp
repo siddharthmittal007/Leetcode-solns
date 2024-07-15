@@ -10,21 +10,14 @@ public:
         // Obtaining 'next greater element' for each element in 'nums2'
         for(int i=0;i<nums2.size();i++)
         {
-            if(s.empty() || s.top()>=nums2[i])
+            // Remove all elements smaller than 'current element' from stack
+            // and save 'current element' as their 'next greater element'
+            while(!s.empty() && s.top()<nums2[i])   
             {
-                s.push(nums2[i]);       // Push 'current element' to stack
+                ump.insert({s.top(),nums2[i]});
+                s.pop();
             }
-            else
-            {
-                // Remove all elements smaller than 'current element' from stack
-                // and save 'current element' as their 'next greater element'
-                while(!s.empty() && s.top()<nums2[i])   
-                {
-                    ump.insert({s.top(),nums2[i]});
-                    s.pop();
-                }
-                s.push(nums2[i]);       // Push 'current element' to stack
-            }
+            s.push(nums2[i]);       // Push 'current element' to stack
         }
 
         // No next 'greater element' for remaining elements in stack
@@ -45,3 +38,6 @@ public:
         return(ans);
     }
 };
+
+// T.C=O(N+M)   ;   S.C=O(N)
+// N->size of parent vector     ; M->size of subset vector
