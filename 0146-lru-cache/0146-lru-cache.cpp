@@ -20,6 +20,49 @@ public:
     
     Node *head, *tail;                  // 'head' and 'tail' pointers to DLL queue
     
+    void move_to_tail(Node *node)
+    {
+        if(node==tail)
+        {
+            return;     // node already at tail
+        }
+        
+        // Removing from current position
+        if(node==head)
+        {
+            node->next->prev=NULL;
+            head=node->next;
+        }
+        else
+        {
+            node->prev->next=node->next;
+            node->next->prev=node->prev;
+        }
+                
+        // Moving to tail
+        node->next=NULL;
+        node->prev=tail;
+        tail->next=node;
+        tail=node;
+    }
+
+    void delete_head(Node *node)
+    {
+        // Remove from DLL queue
+        if(head==tail)
+        {
+            head=tail=NULL;
+        }  
+        else
+        {
+            node->next->prev=NULL;
+            head=node->next;
+        }  
+
+        cache.erase(node->Key);     // Delete from cache
+        delete(node);               // Free memory
+    }
+    
     LRUCache(int capacity) {
         max_cap=capacity;
         head=tail=NULL;
@@ -28,35 +71,10 @@ public:
     int get(int key) {
         if(cache.find(key)!=cache.end())    // Key exists in cache
         {
-            Node *node=cache.at(key);   // 'key' node in DLL queue
-            
-            if(node!=tail)              // Move node to tail
-            {
-                // Removing node from current position 
-                if(node->prev!=NULL)
-                {
-                    node->prev->next=node->next;
-                }
-                if(node->next!=NULL)
-                {
-                    node->next->prev=node->prev;
-                }
-                // Setting head
-                if(node==head)
-                {
-                    head=node->next;
-                }
-                
-                // Moving to tail
-                node->next=NULL;
-                node->prev=tail;
-                tail->next=node;
-                tail=node;
-            }
-            
-            return(node->Value);          // Return value corresp. to key
+            Node *node=cache.at(key);   
+            move_to_tail(node);
+            return(node->Value);          
         }
-        
         return(-1);     // Key does not exist in cache
     }
     
@@ -66,26 +84,13 @@ public:
             // Update key value
             Node *node=cache.at(key);
             node->Value=value;
+            move_to_tail(node);
             return;
         }
         
         if(cache.size()==max_cap)   // Evict LRU element
-        {
-            Node *node=head;        // LRU element at DLL queue 'head'
-            
-            // Delete from DLL queue
-            if(node==tail)
-            {
-                head=tail=NULL;
-            }
-            else
-            {
-                node->next->prev=NULL;
-                head=node->next;
-            }
-            
-            cache.erase(node->Key); // Delete from cache
-            delete(node);           // Free memory
+        {   
+            delete_head(head);
         }
 
         // Add key to DLL queue 'tail'
