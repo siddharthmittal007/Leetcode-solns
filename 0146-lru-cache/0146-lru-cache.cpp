@@ -26,17 +26,17 @@ public:
     void put(int key, int value) {
         if(cache.find(key)==cache.end() && cache.size()==max_cap)
         {
-            while(!q.empty() && cnt.find(q.front())!=cnt.end())
+            while(!q.empty())
             {
-                cnt[q.front()]--;
-                if(cnt[q.front()]==0)
+                int temp=q.front();
+                q.pop();
+                cnt[temp]--;
+                if(cnt[temp]==0)
                 {
-                    cnt.erase(q.front());
-                    cache.erase(q.front());
-                    q.pop();
+                    cnt.erase(temp);
+                    cache.erase(temp);
                     break;
                 }
-                q.pop();
             }
         }
 
@@ -46,6 +46,9 @@ public:
                                     // in FIFO queue
     }
 };
+
+// T.C=O(1) (PUT AND GET OPERATIONS)
+// S.C=O(N)
 
 /**
  * Your LRUCache object will be instantiated and called as such:
