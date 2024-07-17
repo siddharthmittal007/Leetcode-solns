@@ -49,7 +49,7 @@ public:
     }
 };
 
-// T.C=O(1) (PUT AND GET OPERATIONS)
+// T.C=O(1) (PUT)   ;   T.C=O(N) (GET)
 // S.C=O(N)
 
 /**
