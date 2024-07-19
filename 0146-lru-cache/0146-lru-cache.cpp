@@ -15,12 +15,13 @@ public:
         {
             auto it=cache.at(key);
             
-            // Removing from current position
+            // Removing from current position()
             pair<int,int> elem=make_pair(it->first,it->second);
             q.erase(it);
 
             // Move to back
-            q.push_back(elem);   
+            it=q.insert(q.end(),elem);  
+            cache[key]=it;  // Updating iterator value
             
             return(elem.second);          
         }
@@ -39,7 +40,8 @@ public:
             q.erase(it);
 
             // Move to back
-            q.push_back(elem);
+            it=q.insert(q.end(),elem);  
+            cache[key]=it;  // Updating iterator value
 
             return;
         }
