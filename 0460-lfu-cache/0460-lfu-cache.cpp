@@ -87,6 +87,9 @@ public:
     }
 };
 
+// T.C=O(1) FOR BOTH GET AND PUT
+// S.C=O(N)
+
 /**
  * Your LFUCache object will be instantiated and called as such:
  * LFUCache* obj = new LFUCache(capacity);
