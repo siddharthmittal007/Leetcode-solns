@@ -40,3 +40,5 @@ public:
         return(max_area);   // return max area
     }
 };
+
+// T.C=O(N) ;   S.C=O(N)
