@@ -30,3 +30,6 @@ public:
         return(max_sliding_window);
     }
 };
+
+// T.C=O(N) ;   S.C=O(N)
+// T.C OF BRUTE FORCE WOULD HAVE BEEN O(N*k)
