@@ -36,3 +36,9 @@ public:
         return(max_area);
     }
 };
+
+auto init = []() {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  return '$';
+}();
