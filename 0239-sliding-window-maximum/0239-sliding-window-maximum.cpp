@@ -3,26 +3,27 @@ public:
     vector<int> maxSlidingWindow(vector<int>& nums, int k) {
         vector<int> max_sliding_window;     // Vector to store answer
 
-        queue<int> q;                       // Monotonic decreasing queue
+        deque<int> q;                       // Monotonic decreasing queue
 
         for(int i=0;i<nums.size();i++)
         {
             // Enqueue
             while(!q.empty() && q.back()<nums[i])
             {
-                q.pop();
+                q.pop_back();
             }
-            q.push(nums[i]);
+            q.push_back(nums[i]);
 
+            // Store window max
             if(i>=k-1)
             {
-                max_sliding_window.push_back(q.front());    // Store window max
+                max_sliding_window.push_back(q.front());    
             }
 
             // Dequeue
             if(i>=k-1 && nums[i-k+1]==q.front())
             {
-                q.pop();
+                q.pop_front();
             }
         }
 
