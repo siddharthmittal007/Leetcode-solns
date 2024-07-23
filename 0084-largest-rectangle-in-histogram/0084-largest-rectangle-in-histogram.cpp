@@ -11,16 +11,9 @@ public:
             {
                 int ind=s.top();
                 s.pop();
-                
-                int h=heights[ind],w;
-                if(s.empty())
-                {
-                    w=i;
-                }
-                else
-                {
-                    w=i-s.top()-1;
-                }
+            
+                int h=heights[ind];
+                int w=s.empty()?i:i-s.top()-1;
                 max_area=max(max_area,h*w);
             }
             s.push(i);
