@@ -36,6 +36,9 @@ public:
     }
 };
 
+// T.C=O(1) ALL OPERATIONS
+// S.C=O(2*N)
+
 /**
  * Your MinStack object will be instantiated and called as such:
  * MinStack* obj = new MinStack();
