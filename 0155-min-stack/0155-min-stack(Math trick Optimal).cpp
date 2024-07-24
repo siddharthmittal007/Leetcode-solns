@@ -1,27 +1,20 @@
 class MinStack {
 public:
-    stack<int> s;         
-    int min_val;
+    stack<long long> s;         
+    long long min_val;
     
     MinStack() {
-
+        min_val=INT_MAX;
     }
     
     void push(int val) {
-        if(s.empty())
-        {
-            s.push(val);
-            min_val=val;
-            return;
-        }
-
         if(min_val<=val)
         {
             s.push(val);
         }
         else
         {
-            s.push(val-min_val+val);
+            s.push(val*2LL-min_val);
             min_val=val;
         }
     }
@@ -33,7 +26,7 @@ public:
         }
         else
         {
-            min_val=min_val-s.top()+min_val;
+            min_val=2*min_val-s.top();
             s.pop();
         }
     }
