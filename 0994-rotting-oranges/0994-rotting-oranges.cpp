@@ -71,5 +71,3 @@ public:
 };
 
 // T.C=O(M*N)   ;`S.C=O(M*N)
-
-// put all rootten oranges in calling funtion itself and dont create extra fucntion
