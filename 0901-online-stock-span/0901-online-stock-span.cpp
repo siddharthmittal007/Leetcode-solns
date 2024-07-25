@@ -9,17 +9,21 @@ public:
     }
     
     int next(int price) {
-        day++;
+        // Popping upto previous greater price
         while(!s.empty() && s.top().first<=price)
         {
             s.pop();
         }
-
-        int last=s.empty()?0:s.top().second;
-        s.push({price,day});
-        return(day-last);
+        int prev_gr_day=s.empty()?0:s.top().second;
+        
+        day++;
+        s.push({price,day});    // Pushing current (price,day)
+        
+        return(day-prev_gr_day);       // Return stock span
     }
 };
+
+// T.C=O(N) ;   S.C=O(N)
 
 /**
  * Your StockSpanner object will be instantiated and called as such:
