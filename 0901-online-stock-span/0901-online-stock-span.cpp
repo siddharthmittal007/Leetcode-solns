@@ -23,7 +23,11 @@ public:
     }
 };
 
-// T.C=O(N) ;   S.C=O(N)
+// T.C=O(N) WORST CASE 
+// T.C=O(1) ON AVERAGE I.E. O(N) FOR N OPERATIONS EVEN IN WORST CASE
+// S.C=O(N)
+
+// CONCEPT - MONOTONIC STACK
 
 /**
  * Your StockSpanner object will be instantiated and called as such:
