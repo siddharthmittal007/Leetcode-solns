@@ -88,7 +88,7 @@ public:
 
             if(bwd1<bwd2-1)
             {   
-                if(bwd1==fwd2)      // Copy rest of word to forward forming string  
+                if(bwd1==fwd2)
                 {
                     reverse(s,fwd1,fwd2);
                     break;
@@ -101,3 +101,5 @@ public:
         return(s);
     }
 };
+
+// T.C=O(N) ;   S.C=O(1)
