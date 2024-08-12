@@ -1,0 +1,6 @@
+lc editorial
+  1.Reverse string, trim extra spaces and reverse individual words(In place o(1))
+Striver
+  1.Stack pushing words(O(N) space)
+Mine
+  1.Naive O(N) space
