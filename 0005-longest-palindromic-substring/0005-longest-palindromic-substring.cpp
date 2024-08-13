@@ -1,61 +1,54 @@
 class Solution {
 public:
     string longestPalindrome(string s) {
-        vector<int> dp1(s.size(),1);    // Odd length palindromes
-        vector<int> dp2(s.size(),0);    // Even length palindromes
-        
-        pair<int,int> max1={-1,-1};     // Index,palindrome radius pairs(odd pal.)
-        pair<int,int> max2={-1,-1};     // Index,palindrome radius pairs(even pal.)
-        
-        // Finding longest odd length palindrome
-        int l1=-1,r1=-1;
+        // Ensuring all palindromes to be of odd length
+        string s_prime="#";
         for(int i=0;i<s.size();i++)
         {
-            if(i<r1)
-                dp1[i]=min(dp1[2*l1-i],r1-i);
- 
-            while(i-dp1[i]>=0 && i+dp1[i]<s.size() && s[i-dp1[i]]==s[i+dp1[i]])
-                dp1[i]++;
-            
-            if(max1.second<dp1[i])
-                max1={i,dp1[i]};
+            s_prime+=s[i];
+            s_prime+='#';
+        }
 
-            if(i+dp1[i]>r1)
+        vector<int> radii(s_prime.size(),0);    // Palindrome radii
+        
+        // Finding palindrome radii for each index
+        int center =-1,radius=-1;
+        for(int i=0;i<s_prime.size();i++)
+        {
+            if(i<=center+radius)
+                radii[i]=min(radii[center-radius],center+radius-i+1);
+
+            while(i-radii[i]-1>=0 && i+radii[i]+1<s_prime.size() && 
+                    s_prime[i-radii[i]-1]==s_prime[i+radii[i]+1])
             {
-                l1=i;
-                r1=dp1[i]+i;
+                radii[i]++;
+            }
+
+            if(i+radii[i]>center+radius)
+            {
+                center=i;
+                radius=radii[i];
             }
         }
 
-        // Finding longest even length palindrome
-        int l2=-1,r2=-1;
-        for(int i=0;i<s.size();i++)
+        // Finding max palindrome radii and center
+        int max_center=-1,max_radius=-1;
+        for(int i=0;i<radii.size();i++)
         {
-            if(i<r2-1)
-                dp2[i]=min(dp2[2*l2-i],r2-i-1);
-
-            while(i+dp2[i]+1<s.size() && i-dp2[i]>=0 && s[i-dp2[i]]==s[i+dp2[i]+1])
-                dp2[i]++;
-            
-            if(max2.second<dp2[i])
-                max2={i,dp2[i]};
-            
-            if(i+dp2[i]+1>r2)
+            if(max_radius<radii[i])
             {
-                l2=i;
-                r2=i+dp2[i]+1;
+                max_center=i;
+                max_radius=radii[i];
             }
         }
 
-        // Finding longest palindrome among odd and even length palindromes
-        string ans;
-        int mf1=max1.first, ms1=max1.second, mf2=max2.first, ms2=max2.second;
-        ans=(ms1>ms2?s.substr(mf1-ms1+1,2*ms1-1):s.substr(mf2-ms2+1,2*ms2));
-        
-        return(ans);
+        int start_index=(max_center-max_radius)/2;
+        int length=max_radius;
+
+        return(s.substr(start_index,max_radius));
     }
 };
 
 // T,C=O(N) ;   S.C=O(N)
-// MY PERSONAL VARIANT OF MANACHERS ALGORTIHM
+// MANACHERS ALGORITHM
 // PATTERN - TRICK COMMON TO Z-ALGORITHM, KMP 
