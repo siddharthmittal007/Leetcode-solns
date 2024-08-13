@@ -49,15 +49,13 @@ public:
 
         // Finding longest palindrome among odd and even length palindromes
         string ans;
-        if(max1.second>max2.second)
-        {
-            ans=s.substr(max1.first-max1.second+1,2*max1.second-1);
-        }
-        else
-        {
-            ans=s.substr(max2.first-max2.second+1,2*max2.second);
-        }
-
+        int mf1=max1.first, ms1=max1.second, mf2=max2.first, ms2=max2.second;
+        ans=(ms1>ms2?s.substr(mf1-ms1+1,2*ms1-1):s.substr(mf2-ms2+1,2*ms2));
+        
         return(ans);
     }
 };
+
+// T,C=O(N) ;   S.C=O(N)
+// MY PERSONAL VARIANT OF MANACHERS ALGORTIHM
+// PATTERN - TRICK COMMON TO Z-ALGORITHM, KMP 
