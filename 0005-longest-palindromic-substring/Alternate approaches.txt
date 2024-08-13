@@ -1,0 +1,4 @@
+LC editorial
+  1. Naive- Checking all substrings(O(N^3))
+  2. Improved Naive using DP(O(N^2))
+  3. Propogation from center(O(N^2) worst case and near O(N) on average)
