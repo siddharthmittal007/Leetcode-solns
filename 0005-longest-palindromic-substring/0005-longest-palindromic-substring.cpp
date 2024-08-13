@@ -12,11 +12,12 @@ public:
         vector<int> radii(s_prime.size(),0);    // Palindrome radii
         
         // Finding palindrome radii for each index
-        int center =-1,radius=-1;
+        int center =0,radius=0;
         for(int i=0;i<s_prime.size();i++)
         {
-            if(i<=center+radius)
-                radii[i]=min(radii[center-radius],center+radius-i);
+            int mirror=2*center-i;
+            if(i<radius)
+                radii[i]=min(radii[mirror],radius-i);
 
             while(i-radii[i]-1>=0 && i+radii[i]+1<s_prime.size() && 
                     s_prime[i-radii[i]-1]==s_prime[i+radii[i]+1])
@@ -24,29 +25,27 @@ public:
                 radii[i]++;
             }
 
-            if(i+radii[i]>center+radius)
+            if(i+radii[i]>radius)
             {
                 center=i;
-                radius=radii[i];
+                radius=radii[i]+i;
             }
         }
 
-        // Finding max palindrome radii and center
-        int max_center=-1,max_radius=-1;
+        // Finding max palindrome length and center
+        int max_center=0,max_length=0;
         for(int i=0;i<radii.size();i++)
         {
-            if(max_radius<radii[i])
+            if(max_length<radii[i])
             {
                 max_center=i;
-                max_radius=radii[i];
+                max_length=radii[i];
             }
         }
 
-        int start_index=(max_center-max_radius)/2;
-        int length=max_radius;
+        int start_index=(max_center-max_length)/2;
 
-        cout<<start_index;
-        return(s.substr(start_index,max_radius));
+        return(s.substr(start_index,max_length));
     }
 };
 
