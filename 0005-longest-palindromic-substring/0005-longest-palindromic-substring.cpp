@@ -34,7 +34,13 @@ public:
         {
             if(i<r2)
             {
-                dp2[i]=min(dp2[2*l2-i+1],r2-i-1);
+                if(2*l2-i>=0)
+                dp2[i]=min(dp2[2*l2-i],r2-i-1);
+
+                else
+                {
+                    dp2[i]=r2-i-1;
+                }
             }
             while(i+dp2[i]+1<s.size() && i-dp2[i]>=0 && s[i-dp2[i]]==s[i+dp2[i]+1])
             {
