@@ -1,0 +1,3 @@
+LC Editorial
+  1. Greedy with all possible symbols(including 2 character symbols)
+  2. Hardcoded
