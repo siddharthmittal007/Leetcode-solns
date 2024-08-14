@@ -4,7 +4,7 @@ public:
     
     Solution()
     {
-        symbols={{'I',1},{'V',5},{'X',10},{'L',50},{'C',100},{'D',500},{'M',1000}};;
+        symbols={{'M',1000},{'D',500},{'C',100},{'L',50},{'X',10},{'V',5},{'I',1}};
     }
     
     string intToRoman(int num) {
@@ -14,38 +14,35 @@ public:
         {
             if(i%2==0)
             {
-                int cnt=(num/symbols[i].second)%10;
+                int cnt=num/symbols[i].second;
                 if(cnt==4)
                 {
-                    romanNumeral+=symbols[i+1].first;
                     romanNumeral+=symbols[i].first;
-                }
-                else if(cnt==9)
-                {
-                    romanNumeral+=symbols[i+2].first;
-                    romanNumeral+=symbols[i].first;
+                    romanNumeral+=symbols[i-1].first;
                 }
                 else
                 {  
-                    cnt=cnt%5;
                     while(cnt--)
-                    {
                         romanNumeral+=symbols[i].first;
-                    }
                 }
+                num%=symbols[i].second;
             }
             else // i%2==1
             {
-                int cnt=(num/symbols[i].second)%2;
-                if(cnt && num/symbols[i-1].second%10!=9)
+                int cnt=num/symbols[i].second;
+                if(num>=symbols[i-1].second-symbols[i+1].second)
+                {
+                    romanNumeral+=symbols[i+1].first;
+                    romanNumeral+=symbols[i-1].first;
+                    num%=symbols[i+1].second;
+                }
+                else if(cnt)
                 {
                     romanNumeral+=symbols[i].first;
+                    num%=symbols[i].second;
                 }
             }
-
         }
-
-        reverse(romanNumeral.begin(),romanNumeral.end());
 
         return(romanNumeral);
     }
