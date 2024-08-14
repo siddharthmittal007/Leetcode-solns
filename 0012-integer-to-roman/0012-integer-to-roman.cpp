@@ -12,13 +12,18 @@ public:
         
         for(int i=0;i<symbols.size();i++)
         {
-            if(i%2==0)
+            if(i%2==0)  // Powers of 10(1,10,100,..)
             {
                 int cnt=num/symbols[i].second;
                 if(cnt==4)
                 {
                     romanNumeral+=symbols[i].first;
                     romanNumeral+=symbols[i-1].first;
+                }
+                else if(cnt==9)
+                {
+                    romanNumeral+=symbols[i].first;
+                    romanNumeral+=symbols[i-2].first;
                 }
                 else
                 {  
@@ -27,16 +32,10 @@ public:
                 }
                 num%=symbols[i].second;
             }
-            else // i%2==1
+            else // 5*(Powers of 10) (5,50,500...)
             {
                 int cnt=num/symbols[i].second;
-                if(num>=symbols[i-1].second-symbols[i+1].second)
-                {
-                    romanNumeral+=symbols[i+1].first;
-                    romanNumeral+=symbols[i-1].first;
-                    num%=symbols[i+1].second;
-                }
-                else if(cnt)
+                if(cnt && num<symbols[i-1].second-symbols[i+1].second)
                 {
                     romanNumeral+=symbols[i].first;
                     num%=symbols[i].second;
