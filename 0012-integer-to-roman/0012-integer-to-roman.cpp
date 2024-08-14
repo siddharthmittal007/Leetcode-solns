@@ -1,7 +1,6 @@
 class Solution {
 public:
     vector<pair<char,int>> symbols;
-    
     Solution()
     {
         symbols={{'M',1000},{'D',500},{'C',100},{'L',50},{'X',10},{'V',5},{'I',1}};
@@ -42,7 +41,9 @@ public:
                 }
             }
         }
-
         return(romanNumeral);
     }
 };
+
+// T.C=O(1) ;   S.C=O(1)    (SINCE NUMERALS ARE FIXED AND FINITE)
+// T.C=O(N) ;   S.C=O(N)    (IF O(N) ROMAN NUMERALS)
