@@ -5,7 +5,7 @@ public:
         int i=0;
         while(i<s.size() && s[i]==' ')
             i++;
-            
+
         // Determining sign
         int sign=(i<s.size() && s[i]=='-'?-1:+1);
         if(i<s.size() && s[i]=='-' || s[i]=='+')
@@ -32,3 +32,5 @@ public:
         return(value);
     }
 };
+
+// T.C=O(N)  ;   S.C=O(1)
