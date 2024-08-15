@@ -1,0 +1,8 @@
+LC Editorial
+  1.Horizontal Scanning
+  2.Binary Search
+  3.Divide and Conquer
+
+LC Editorial 
+  1. Alternate problem of querying lcp repeatedly from given fixed set S of strings
+  (using trie)
