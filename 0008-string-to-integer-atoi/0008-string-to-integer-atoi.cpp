@@ -12,7 +12,7 @@ public:
             i++;
 
         // Evaluating 
-        long long value=0;
+        int value=0;
         for(;i<s.size();i++)
         {
             int digit=s[i]-'0';
@@ -20,14 +20,27 @@ public:
             if(digit<0 || digit>9)  // Non-digit character encountered
                 break;  
             
-            value=10*value+digit*sign;
-            
-            // Rounding
-            if(value>=INT_MAX || value<=INT_MIN)
+            // Avoiding integer overflow(positive)
+            if(sign==1)
             {
-                value=value>=INT_MAX?INT_MAX:INT_MIN;
-                break;
-            }   
+                if(value>INT_MAX/10 || (value==INT_MAX/10 && digit>INT_MAX-value*10))
+                {
+                    value=INT_MAX;  // Rounding off
+                    break;
+                }
+                value=value*10+digit;
+            }
+            // Avoiding integer overflow(negative)
+            else
+            {
+                if  (value<INT_MIN/10 || 
+                    (value==INT_MIN/10 && digit*sign<INT_MIN-value*10))
+                {
+                    value=INT_MIN;  // Rounding off
+                    break;
+                }
+                value=value*10+digit*sign;
+            }
         }
         return(value);
     }
