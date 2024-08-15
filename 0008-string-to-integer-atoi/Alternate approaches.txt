@@ -1,0 +1,3 @@
+LC Editorial
+  1. Without long long (their given variant of implementation)
+  2. Finite deterministic automation
