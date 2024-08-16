@@ -1,10 +1,11 @@
 class Solution {
 public:
     int strStr(string haystack, string needle) {
+        // Combining strings 'needle' and 'haystack' with a unique seperator '#'
         string s(needle+'#'+haystack);
-        vector<int> z(s.size(),0);
         
         // Z function
+        vector<int> z(s.size(),0);
         z[0]=0;
         int l=0,r=0;
 
@@ -17,7 +18,7 @@ public:
                 z[i]++;
             
             if(z[i]==needle.size())
-                return(i-(int)needle.size()-1);
+                return(i-(int)needle.size()-1);     // Return first occurence 
 
             if(i+z[i]>r)
             {
