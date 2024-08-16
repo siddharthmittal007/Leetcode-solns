@@ -28,7 +28,7 @@ public:
 
         // Finding first occurence of 'needle' in 'haystack'
         int l=0,r=0;
-        for(int i=0;i<=haystack.size()-needle.size();i++)
+        for(int i=0;i<=(int)haystack.size()-(int)needle.size();i++)
         {
             int len=0;
             if(i<r)
