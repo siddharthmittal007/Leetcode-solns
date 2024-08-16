@@ -1,7 +1,10 @@
 class Solution {
 public:
-    void zFunction(vector<int> &z,string &s)
-    {
+    int strStr(string haystack, string needle) {
+        string s(needle+'#'+haystack);
+        vector<int> z(s.size(),0);
+        
+        // Z function
         z[0]=0;
         int l=0,r=0;
 
@@ -13,39 +16,16 @@ public:
             while(i+z[i]<s.size() && s[i+z[i]]==s[z[i]])
                 z[i]++;
             
+            if(z[i]==needle.size())
+                return(i-(int)needle.size()-1);
+
             if(i+z[i]>r)
             {
                 l=i;
                 r=i+z[i];
             }
         }
-    }
     
-    int strStr(string haystack, string needle) {
-        // Computing z function of 'needle'
-        vector<int> z(needle.size(),0);
-        zFunction(z,needle);
-
-        // Finding first occurence of 'needle' in 'haystack'
-        int l=0,r=0;
-        for(int i=0;i<=(int)haystack.size()-(int)needle.size();i++)
-        {
-            int len=0;
-            if(i<r)
-                len=min(z[i-l],r-i);
-            
-            while(len<needle.size() && haystack[i+len]==needle[len])
-                len++;
-            
-            if(len==needle.size())
-                return(i);  // Return first occurence
-
-            if(i+len>r)
-            {
-                l=i;
-                r=i+len;
-            }    
-        } 
         return(-1);     // 'needle' not a part of 'haystack'
     }
 };
