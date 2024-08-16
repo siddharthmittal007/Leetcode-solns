@@ -28,5 +28,5 @@ public:
 };
 
 // T.C=O(N)    ;   S.C=O(N)
-// Z FUNCTION
+// KMP ALGORITHM
 // PATTERN - STRING MATCHING
