@@ -3,10 +3,13 @@ public:
     // Utility function
     int pow(int base,int q,int exp)
     {
-        if(exp==0)
-            return(1);
-        
-        return((base*pow(base,q,exp-1))%q);
+        int value=1;
+        for(int i=1;i<=exp;i++)
+        {
+            value*=base;
+            value%=q;
+        }
+        return(value);
     }
 
     // Utility function
@@ -37,18 +40,18 @@ public:
 
         for(int i=0;i<=(int)haystack.size()-(int)needle.size();i++)
         {
-            cout<<p<<" "<<t<<" ";
             if(t==p && check(haystack,needle,i))
                 return(i);      // Return first occurence of string
             
             if(i<(int)haystack.size()-(int)needle.size())
                 t=(t*d+(haystack[i+needle.size()]-'a')-h*(haystack[i]-'a'))%q;
+                if(t<0)t+=q;       
         }
 
         return(-1);     // 'needle' not a part of 'haystack'
     }
 };
 
-// T.C=O(N)    ;   S.C=O(N)
+// T.C=O(N)    ;   S.C=O(1)
 // RABIN KARP ALGORITHM
 // PATTERN - STRING MATCHING
