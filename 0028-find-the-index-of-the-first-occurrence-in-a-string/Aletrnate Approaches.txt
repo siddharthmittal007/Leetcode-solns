@@ -1,0 +1,6 @@
+LC Editorial
+  1. Naive Matching
+  2. Double Hashing in Rabin Karp
+  3. Improve my single hash rabin karp also by referring elegant implementations online
+Extra
+  1. Boyer Moore
