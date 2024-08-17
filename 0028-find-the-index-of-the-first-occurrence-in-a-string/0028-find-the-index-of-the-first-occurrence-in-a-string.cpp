@@ -52,6 +52,6 @@ public:
     }
 };
 
-// T.C=O(N)    ;   S.C=O(1)
+// T.C=O(N)(Amortized)    ;   S.C=O(1)
 // RABIN KARP ALGORITHM
 // PATTERN - STRING MATCHING
