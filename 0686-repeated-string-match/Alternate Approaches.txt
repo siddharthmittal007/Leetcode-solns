@@ -1,0 +1,3 @@
+Extra-
+  1. Space-wise Naive simple String Matching(All string matching approaches applicable)
+  2. KMP space efficient(and space efficient implementations of other string matching algos)
