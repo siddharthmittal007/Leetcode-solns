@@ -52,3 +52,6 @@ public:
 // T.C=O(M+N)(AMORTIZED)   ;   S.C=O(1)
 //RABIN KARP VARIANT
 // PATTERN - STRING MATCHING 
+// In for loop used for finding possible matches, we see only uptill length
+// of 'a' as if substring possible then it must begin before 'a' ends
+//(Therefore it is a type of time optimization)
