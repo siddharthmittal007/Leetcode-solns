@@ -1,6 +1,10 @@
 class Solution {
 public:
     bool isAnagram(string s, string t) {
+        // Comparing size
+        if(s.size()!=t.size())
+            return(false);          // Not an anagram
+        
         // Evaluating count of all characters in 's'
         vector<int> alphabetCount(26,0);
         for(int i=0;i<s.size();i++)
