@@ -27,5 +27,5 @@ public:
     }
 };
 
-// T.C=O(N) ;   S.C=O(1)
+// T.C=O(max(N,M)) ;   S.C=O(1)
 // PATTERN - ATOI
