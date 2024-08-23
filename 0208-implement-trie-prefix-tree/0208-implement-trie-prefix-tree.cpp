@@ -54,7 +54,8 @@ public:
     }
 };
 
-// T.C=O(N) (FOR ALL 3);  S.C=O(N) (FOR INSERT), O(1) (FOR REST 2)
+// T.C=O(N*26) ;  S.C=O(N*26) (FOR INSERT)
+// T.C=O(N) ;   S.C=O(1) (FOR REST 2)
 
 /**
  * Your Trie object will be instantiated and called as such:
