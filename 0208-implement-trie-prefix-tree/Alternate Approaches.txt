@@ -1,0 +1,5 @@
+LC Editorial
+  1. Using common fucntion for startsWith and search
+Extra
+  1. Using vector to store children
+  2. Using hashmap(when set of characters is unicode) forchildren
