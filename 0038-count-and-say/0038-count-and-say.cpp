@@ -28,7 +28,8 @@ public:
     }
 };
 
-// T.C=O(N^2) ;   S.C=O(N)(temporary extra string)
+// T.C=O(4^(N/3)) ;   S.C=O(4^(N/3))(temporary extra string)
+// PROOF(LC EDITORIAL)  ;   HOWEVER BOUND NOT TIGHT
 
 // IMP - HERE DIGITS TAKE ONLY THE VALUE 1,2,3
 // THUS ANSWER STRINGS CAN BE COMPRESSED TO USE 2 BITS FOR EACH DIGIT IF
