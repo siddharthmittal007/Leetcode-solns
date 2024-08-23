@@ -1,11 +1,12 @@
 class TrieNode{
 public:
-    vector<TrieNode*> children;
+    TrieNode* children[26];
     bool wordEnd;
     
     TrieNode(){
-        children=vector<TrieNode*>(26,NULL);
         wordEnd=false;
+        for(int i=0;i<26;i++)
+            children[i]=NULL;
     }
 };
 
@@ -20,10 +21,10 @@ public:
         TrieNode *temp=root;
         for(int i=0;i<word.size();i++)
         {
-            char c=word[i];
-            if(temp->children[c-'a']==NULL)
-                temp->children[c-'a']=new TrieNode();
-            temp=temp->children[c-'a'];
+            int curr=word[i]-'a';
+            if(temp->children[curr]==NULL)
+                temp->children[curr]=new TrieNode();
+            temp=temp->children[curr];
         }
         temp->wordEnd=true;
     }
@@ -32,26 +33,28 @@ public:
         TrieNode *temp=root;
         for(int i=0;i<word.size();i++)
         {
-            char c=word[i];
-            if(temp->children[c-'a']==NULL)
-                return(false);  // Word not found
-            temp=temp->children[c-'a'];
+            int curr=word[i]-'a';
+            if(temp->children[curr]==NULL)
+                return(false);  
+            temp=temp->children[curr];
         }
-        return(temp->wordEnd?true:false);
+        return(temp->wordEnd);
     }
     
     bool startsWith(string prefix) {
         TrieNode *temp=root;
         for(int i=0;i<prefix.size();i++)
         {
-            char c=prefix[i];
-            if(temp->children[c-'a']==NULL)
-                return(false);  // Prefix not found
-            temp=temp->children[c-'a'];
+            int curr=prefix[i]-'a';
+            if(temp->children[curr]==NULL)
+                return(false);  
+            temp=temp->children[curr];
         }
         return(true);
     }
 };
+
+// T.C=O(N) (FOR ALL 3);  S.C=O(N) (FOR INSERT), O(1) (FOR REST 2)
 
 /**
  * Your Trie object will be instantiated and called as such:
