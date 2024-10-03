@@ -92,3 +92,6 @@ public:
         return(ans);
     }
 };
+
+// T.C=O(32*(N+M))  ;   S.C=O(32*N)
+// PATTERN - STORING SET OF BINARY NUMBERS IN BINARY TREE
