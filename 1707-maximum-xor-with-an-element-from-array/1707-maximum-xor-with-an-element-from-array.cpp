@@ -62,7 +62,7 @@ public:
             {
                 ptr=temp;
                 y&=(1<<30)-(1<<bit_pos)+(1<<30);
-                ans&=(1<<31)-(1<<bit_pos)+(1<<30);
+                ans&=(1<<30)-(1<<bit_pos)+(1<<30);
                 i=bit_pos-1;
             } 
             else
