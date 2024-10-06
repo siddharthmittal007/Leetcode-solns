@@ -19,7 +19,7 @@ public:
     void insert(int value)
     {
         Node *temp=root;
-        for(int i=31;i>=0;i--)
+        for(int i=30;i>=0;i--)
         {
             int bit=(value>>i)&1;
             if(temp->links[bit]==NULL)
@@ -34,7 +34,7 @@ public:
         Node *temp=root;
         
         int ans=0;
-        for(int i=31;i>=0;i--)
+        for(int i=30;i>=0;i--)
         {
             int bit=(value>>i) & 1;
             if(temp->links[1-bit]!=NULL)
@@ -68,5 +68,5 @@ public:
     }
 };
 
-// T.C=O(32*N)  ;   S.C=O(32*N)
+// T.C=O(31*N)  ;   S.C=O(31*N)
 // PATTERN - USING BINARY TRIE TO STORE SET OF BINARY NUMBERS 
