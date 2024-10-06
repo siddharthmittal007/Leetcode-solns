@@ -1,0 +1,2 @@
+1. Brute Force(O(N^2))
+2. Hash Set(LC editorial O(N))
