@@ -15,26 +15,19 @@ public:
         vector<int> ans;        // To save inorder traversal
         stack<TreeNode*> s;     // Stack of tree node pointers
 
-        if(root==nullptr)
-            return(ans);
         // Finding inorder traversal
         TreeNode *temp=root;
-        do
+        while(temp!=nullptr || !s.empty())
         {
-            cout<<"Axyzlmmo ";
             while(temp!=nullptr)
             {
-                cout<<"B ";
                 s.push(temp);
                 temp=temp->left;
             }
-
-            cout<<"C ";
-            temp=s.top();
+            ans.push_back(s.top()->val);
+            temp=s.top()->right;
             s.pop();
-            ans.push_back(temp->val);
-            temp=temp->right;
-        }while(temp!=nullptr || !s.empty());
+        }
         
         return(ans);
     }
