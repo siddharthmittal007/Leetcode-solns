@@ -11,20 +11,31 @@
  */
 class Solution {
 public:
-    // Recursive Function
-    void inorder(TreeNode *node,vector<int> &ans)
-    {
-        if(node==nullptr)
-            return;
-        
-        inorder(node->left,ans);
-        ans.push_back(node->val);
-        inorder(node->right,ans);
-    }
-
     vector<int> inorderTraversal(TreeNode* root) {
-        vector<int> ans;
-        inorder(root,ans);
+        vector<int> ans;        // To save inorder traversal
+        stack<TreeNode*> s;     // Stack of tree node pointers
+
+        if(root==nullptr)
+            return(ans);
+        // Finding inorder traversal
+        TreeNode *temp=root;
+        do
+        {
+            cout<<"Axyzlmmo ";
+            while(temp!=nullptr)
+            {
+                cout<<"B ";
+                s.push(temp);
+                temp=temp->left;
+            }
+
+            cout<<"C ";
+            temp=s.top();
+            s.pop();
+            ans.push_back(temp->val);
+            temp=temp->right;
+        }while(temp!=nullptr || !s.empty());
+        
         return(ans);
     }
 };
