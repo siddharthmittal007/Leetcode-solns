@@ -11,23 +11,43 @@
  */
 class Solution {
 public:
-    // Recursive Function
-    void inorderHelper(TreeNode *node,vector<int> &ans)
+    TreeNode* inorderPredecessor(TreeNode *curr)
     {
-        if(node!=nullptr)
-        {
-            inorderHelper(node->left,ans);
-            ans.push_back(node->val);
-            inorderHelper(node->right,ans);
-        }    
+        TreeNode *temp=curr->left;
+        while(temp->right!=nullptr && temp->right!=curr)
+            temp=temp->right;
+        return(temp);
     }
 
     vector<int> inorderTraversal(TreeNode* root) {
-        vector<int> ans;
-        inorderHelper(root,ans);
+        vector<int> ans;        // To save inorder traversal
+        
+        // Morris inorder traversal
+        TreeNode *curr=root;
+        while(curr!=nullptr)
+        {
+            if(curr->left!=nullptr)
+            {
+                TreeNode *temp=inorderPredecessor(curr);
+                if(temp->right==nullptr)
+                {
+                    temp->right=curr;       // Create thread
+                    curr=curr->left;
+                }    
+                else    // (temp->right==curr)
+                {
+                    temp->right=nullptr;    // Destroy thread
+                    ans.push_back(curr->val);
+                    curr=curr->right;
+                }
+            }
+            else
+            {
+                ans.push_back(curr->val);
+                curr=curr->right;
+            }
+        }
+
         return(ans);
     }
 };
-
-// T.C=O(N) ;   S.C=O(N)
-// PATTERN - TREE TRAVERSAL
