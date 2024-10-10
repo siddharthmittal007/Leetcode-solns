@@ -11,43 +11,24 @@
  */
 class Solution {
 public:
-    TreeNode* inorderPredecessor(TreeNode *curr)
-    {
-        TreeNode *temp=curr->left;
-        while(temp->right!=nullptr && temp->right!=curr)
-            temp=temp->right;
-        return(temp);
-    }
-
     vector<int> inorderTraversal(TreeNode* root) {
         vector<int> ans;        // To save inorder traversal
-        
-        // Morris inorder traversal
-        TreeNode *curr=root;
-        while(curr!=nullptr)
-        {
-            if(curr->left!=nullptr)
-            {
-                TreeNode *temp=inorderPredecessor(curr);
-                if(temp->right==nullptr)
-                {
-                    temp->right=curr;       // Create thread
-                    curr=curr->left;
-                }    
-                else    // (temp->right==curr)
-                {
-                    temp->right=nullptr;    // Destroy thread
-                    ans.push_back(curr->val);
-                    curr=curr->right;
-                }
-            }
-            else
-            {
-                ans.push_back(curr->val);
-                curr=curr->right;
-            }
-        }
+        stack<TreeNode*> s;     // Stack of tree node pointers
 
+        // Finding inorder traversal
+        TreeNode *temp=root;
+        while(temp!=nullptr || !s.empty())
+        {
+            while(temp!=nullptr)
+            {
+                s.push(temp);
+                temp=temp->left;
+            }
+            ans.push_back(s.top()->val);
+            temp=s.top()->right;
+            s.pop();
+        }
+        
         return(ans);
     }
 };
