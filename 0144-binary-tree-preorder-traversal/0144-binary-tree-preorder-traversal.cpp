@@ -11,24 +11,22 @@
  */
 class Solution {
 public:
+    void preorderHelper(TreeNode *node,vector<int> &ans)
+    {
+        if(node!=nullptr)
+        {
+            ans.push_back(node->val);
+            preorderHelper(node->left,ans);
+            preorderHelper(node->right,ans);
+        }
+    }
+    
     vector<int> preorderTraversal(TreeNode* root) {
         vector<int>  ans;
-        stack<TreeNode*> s;
-
-        TreeNode *curr=root;
-        while(curr!=nullptr || !s.empty())
-        {
-            if(curr==nullptr)
-            {
-                curr=s.top();
-                s.pop();
-            }    
-            ans.push_back(curr->val);
-            if(curr->right!=nullptr)
-                s.push(curr->right);
-            curr=curr->left;
-        }
-
+        preorderHelper(root,ans);
         return(ans);
     }
 };
+
+// T.C=O(N) ;   S.C=O(N)
+// PATTERN - TREE TRAVERSAL
