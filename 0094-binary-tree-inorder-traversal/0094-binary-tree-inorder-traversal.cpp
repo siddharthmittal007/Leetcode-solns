@@ -11,24 +11,23 @@
  */
 class Solution {
 public:
-    vector<int> inorderTraversal(TreeNode* root) {
-        vector<int> ans;        // To save inorder traversal
-        stack<TreeNode*> s;     // Stack of tree node pointers
-
-        // Finding inorder traversal
-        TreeNode *temp=root;
-        while(temp!=nullptr || !s.empty())
+    // Recursive Function
+    void inorderHelper(TreeNode *node,vector<int> &ans)
+    {
+        if(node!=nullptr)
         {
-            while(temp!=nullptr)
-            {
-                s.push(temp);
-                temp=temp->left;
-            }
-            ans.push_back(s.top()->val);
-            temp=s.top()->right;
-            s.pop();
-        }
-        
+            inorderHelper(node->left,ans);
+            ans.push_back(node->val);
+            inorderHelper(node->right,ans);
+        }    
+    }
+
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> ans;
+        inorderHelper(root,ans);
         return(ans);
     }
 };
+
+// T.C=O(N) ;   S.C=O(N)
+// PATTERN - TREE TRAVERSAL
