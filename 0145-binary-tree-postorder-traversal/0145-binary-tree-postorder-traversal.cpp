@@ -11,43 +11,24 @@
  */
 class Solution {
 public:
-    TreeNode* inorderSuccessor(TreeNode *curr)
-    {
-        TreeNode *temp=curr->right;
-        while(temp->left!=nullptr && temp->left!=curr)
-            temp=temp->left;
-        return(temp);
-    }
-    
     vector<int> postorderTraversal(TreeNode* root) {
         vector<int>  ans;           // To hold postorder traversal
-        
-        // Morris traversal to get reverse postorder traversal
-        TreeNode *curr=root;
-        while(curr!=nullptr)
+        stack<TreeNode*> s;         // Stack 
+
+        // Finding reverse postorder traversal by dfs
+        s.push(root);
+        while(!s.empty())
         {
-            if(curr->right!=nullptr)
+            TreeNode *temp=s.top();
+            s.pop();
+            if(temp!=nullptr)
             {
-                TreeNode *temp=inorderSuccessor(curr);
-                if(temp->left==nullptr)
-                {
-                    ans.push_back(curr->val);
-                    temp->left=curr;        // Create thread
-                    curr=curr->right;
-                }
-                else    // (temp->left==curr)
-                {
-                    temp->left=nullptr;     // Destroy thread
-                    curr=curr->left;
-                }
-            }
-            else
-            {
-                ans.push_back(curr->val);
-                curr=curr->left;
+                ans.push_back(temp->val);
+                s.push(temp->left);
+                s.push(temp->right);
             }
         }
-
+        
         // Obtaining postorder 
         reverse(ans.begin(),ans.end());
         
