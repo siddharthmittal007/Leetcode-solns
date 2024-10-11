@@ -11,30 +11,46 @@
  */
 class Solution {
 public:
+    TreeNode* inorderSuccessor(TreeNode *curr)
+    {
+        TreeNode *temp=curr->right;
+        while(temp->left!=nullptr && temp->left!=curr)
+            temp=temp->left;
+        return(temp);
+    }
+    
     vector<int> postorderTraversal(TreeNode* root) {
-        vector<int>  ans;                   // To hold postorder traversal
-        stack<pair<TreeNode*,bool>> s;      // Stack of node (pointer,flag) to
-                                            // indicate expansion status
-
-        // Finding postorder traversal
-        s.push({root,true});
-        while(!s.empty())
+        vector<int>  ans;           // To hold postorder traversal
+        
+        // Morris traversal to get reverse postorder traversal
+        TreeNode *curr=root;
+        while(curr!=nullptr)
         {
-            auto curr=s.top();
-            s.pop();
-            if(curr.first!=nullptr)
+            if(curr->right!=nullptr)
             {
-                if(curr.second==true)
+                TreeNode *temp=inorderSuccessor(curr);
+                if(temp->left==nullptr)
                 {
-                    s.push({curr.first,false});
-                    s.push({curr.first->right,true});
-                    s.push({curr.first->left,true});
+                    ans.push_back(curr->val);
+                    temp->left=curr;        // Create thread
+                    curr=curr->right;
                 }
-                else
-                    ans.push_back(curr.first->val);
+                else    // (temp->left==curr)
+                {
+                    temp->left=nullptr;     // Destroy thread
+                    curr=curr->left;
+                }
+            }
+            else
+            {
+                ans.push_back(curr->val);
+                curr=curr->left;
             }
         }
- 
+
+        // Obtaining postorder 
+        reverse(ans.begin(),ans.end());
+        
         return(ans);
     }
 };
