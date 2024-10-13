@@ -11,74 +11,38 @@
  */
 class Solution {
 public:
-    // Utility function
-    TreeNode* inorderPredecessor(TreeNode *curr)
-    {
-        TreeNode *temp=curr->left;
-        while(temp->right!=nullptr && temp->right!=curr)
-            temp=temp->right;
-        return(temp);
-    }
-
-    // Utility function
-    void printReverseList(TreeNode *node,vector<int> &ans)
-    {
-        // Reversing chain of right connected nodes
-        TreeNode *succ=node, *pre=nullptr;
-        while(succ!=nullptr)
-        {
-            TreeNode *temp=succ->right;
-            succ->right=pre;
-            pre=succ;
-            succ=temp;
-        }
-
-        // Printing in reverse order while restoring original order
-        succ=pre;
-        pre=nullptr;
-        while(succ!=nullptr)
-        {
-            ans.push_back(succ->val);
-            TreeNode *temp=succ->right;
-            succ->right=pre;
-            pre=succ;
-            succ=temp;
-        }
-    }
-
     vector<int> postorderTraversal(TreeNode* root) {
         vector<int>  ans;           // To hold postorder traversal
+        stack<TreeNode*> s;         // Stack
 
-        // Morris postorder traversal
-        TreeNode *dummy=new TreeNode();
-        dummy->left=root;
-
-        TreeNode *curr=dummy;
-        while(curr!=nullptr)
+        // Finding postorder traversal
+        TreeNode *previousNode=nullptr;
+        TreeNode *curr=root;
+        
+        while(curr!=nullptr || !s.empty())
         {
-            if(curr->left!=nullptr)
+            if(curr!=nullptr)
             {
-                TreeNode *temp=inorderPredecessor(curr);
-                if(temp->right==nullptr)
-                {
-                    temp->right=curr;       // Create thread
-                    curr=curr->left;
-                }
-                else    // (temp->left==curr)
-                {
-                    temp->right=nullptr;    // Destroy thread
-                    // Print reverse list of right connected nodes 
-                    // starting curr->left
-                    printReverseList(curr->left,ans);
-                    curr=curr->right;
-                }
+                s.push(curr);
+                curr=curr->left;
             }
             else
-                curr=curr->right;
+            {
+                TreeNode *temp=s.top();
+                if(temp->right==nullptr || temp->right==previousNode)
+                {
+                    ans.push_back(temp->val);
+                    s.pop();
+                    previousNode=temp;
+                }
+                else
+                    curr=temp->right;                
+            }
         }
+
         return(ans);
     }
 };
 
-// T.C=O(5*N)   ;   S.C=O(1)
+// T.C=O(N)   ;   S.C=O(N)
 // PATTERN - TREE TRAVERSAL
