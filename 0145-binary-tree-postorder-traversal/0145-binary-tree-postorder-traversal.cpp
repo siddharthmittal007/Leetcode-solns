@@ -12,29 +12,29 @@
 class Solution {
 public:
     vector<int> postorderTraversal(TreeNode* root) {
-        vector<int>  ans;           // To hold postorder traversal
-        stack<TreeNode*> s;         // Stack 
+        vector<int>  ans;                   // To hold postorder traversal
+        stack<pair<TreeNode*,bool>> s;      // Stack of node (pointer,flag) to
+                                            // indicate expansion status
 
-        // Finding reverse postorder traversal by dfs
-        s.push(root);
+        // Finding postorder traversal
+        s.push({root,true});
         while(!s.empty())
         {
-            TreeNode *temp=s.top();
+            auto curr=s.top();
             s.pop();
-            if(temp!=nullptr)
+            if(curr.first!=nullptr)
             {
-                ans.push_back(temp->val);
-                s.push(temp->left);
-                s.push(temp->right);
+                if(curr.second==true)
+                {
+                    s.push({curr.first,false});
+                    s.push({curr.first->right,true});
+                    s.push({curr.first->left,true});
+                }
+                else
+                    ans.push_back(curr.first->val);
             }
         }
-        
-        // Obtaining postorder 
-        reverse(ans.begin(),ans.end());
-        
+ 
         return(ans);
     }
 };
-
-// T.C=O(N)   ;   S.C=O(N)
-// PATTERN - TREE TRAVERSAL
