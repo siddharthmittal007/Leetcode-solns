@@ -11,30 +11,21 @@
  */
 class Solution {
 public:
-    vector<int> postorderTraversal(TreeNode* root) {
-        vector<int>  ans;                   // To hold postorder traversal
-        stack<pair<TreeNode*,bool>> s;      // Stack of node (pointer,flag) to
-                                            // indicate expansion status
-
-        // Finding postorder traversal
-        s.push({root,true});
-        while(!s.empty())
+    void postorderHelper(TreeNode *curr,vector<int> &ans)
+    {
+        if(curr!=nullptr)
         {
-            auto curr=s.top();
-            s.pop();
-            if(curr.first!=nullptr)
-            {
-                if(curr.second==true)
-                {
-                    s.push({curr.first,false});
-                    s.push({curr.first->right,true});
-                    s.push({curr.first->left,true});
-                }
-                else
-                    ans.push_back(curr.first->val);
-            }
+            postorderHelper(curr->left,ans);
+            postorderHelper(curr->right,ans);
+            ans.push_back(curr->val);
         }
- 
+    }
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int>  ans;
+        postorderHelper(root,ans);
         return(ans);
     }
 };
+
+// T.C=O(N)   ;   S.C=O(N)
+// PATTERN - TREE TRAVERSAL
