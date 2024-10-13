@@ -79,3 +79,6 @@ public:
         return(ans);
     }
 };
+
+// T.C=O(5*N)   ;   S.C=O(1)
+// PATTERN - TREE TRAVERSAL
