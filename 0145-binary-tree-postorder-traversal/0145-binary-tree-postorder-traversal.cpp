@@ -11,27 +11,71 @@
  */
 class Solution {
 public:
+    // Utility function
+    TreeNode* inorderPredecessor(TreeNode *curr)
+    {
+        TreeNode *temp=curr->left;
+        while(temp->right!=nullptr && temp->right!=curr)
+            temp=temp->right;
+        return(temp);
+    }
+
+    // Utility function
+    void printReverseList(TreeNode *node,vector<int> &ans)
+    {
+        // Reversing chain of right connected nodes
+        TreeNode *succ=node, *pre=nullptr;
+        while(succ!=nullptr)
+        {
+            TreeNode *temp=succ->right;
+            succ->right=pre;
+            pre=succ;
+            succ=temp;
+        }
+
+        // Printing in reverse order while restoring original order
+        succ=pre;
+        pre=nullptr;
+        while(succ!=nullptr)
+        {
+            ans.push_back(succ->val);
+            TreeNode *temp=succ->right;
+            succ->right=pre;
+            pre=succ;
+            succ=temp;
+        }
+    }
+
     vector<int> postorderTraversal(TreeNode* root) {
         vector<int>  ans;           // To hold postorder traversal
-        stack<TreeNode*> s;         // Stack 
 
-        // Finding reverse postorder traversal by dfs
-        s.push(root);
-        while(!s.empty())
+        // Morris postorder traversal
+        TreeNode *dummy=new TreeNode();
+        dummy->left=root;
+
+        TreeNode *curr=dummy;
+        while(curr!=nullptr)
         {
-            TreeNode *temp=s.top();
-            s.pop();
-            if(temp!=nullptr)
+            if(curr->left!=nullptr)
             {
-                ans.push_back(temp->val);
-                s.push(temp->left);
-                s.push(temp->right);
+                TreeNode *temp=inorderPredecessor(curr);
+                if(temp->right==nullptr)
+                {
+                    temp->right=curr;       // Create thread
+                    curr=curr->left;
+                }
+                else    // (temp->left==curr)
+                {
+                    temp->right=nullptr;    // Destroy thread
+                    // Print reverse list of right connected nodes 
+                    // starting curr->left
+                    printReverseList(curr->left,ans);
+                    curr=curr->right;
+                }
             }
+            else
+                curr=curr->right;
         }
-        
-        // Obtaining postorder 
-        reverse(ans.begin(),ans.end());
-        
         return(ans);
     }
 };
