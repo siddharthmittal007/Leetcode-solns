@@ -11,24 +11,35 @@
  */
 class Solution {
 public:
-    void traverse(TreeNode *curr,vector<int> &ans,int level,int &max_level)
-    {
-        if(curr!=nullptr)
-        {
-            if(level>max_level)
-            {
-                max_level=level;
-                ans.push_back(curr->val);
-            }
-            traverse(curr->right,ans,level+1,max_level);
-            traverse(curr->left,ans,level+1,max_level);
-        }
-    }
-
     vector<int> rightSideView(TreeNode* root) {
-        vector<int> ans;
-        int max_level=-1;
-        traverse(root,ans,0,max_level);
+        vector<int> ans;            // To hold right side view
+        
+        if(root==nullptr)
+            return(ans);
+            
+        // Level order traversal
+        queue<TreeNode*> q;
+        q.push(root);
+        q.push(nullptr);            // To mark end of level
+        
+        while(!q.empty())
+        {
+            TreeNode *curr=q.front();
+            q.pop();
+            if(curr!=nullptr)
+            {
+                if(q.front()==nullptr)
+                    ans.push_back(curr->val);
+                if(curr->left!=nullptr)q.push(curr->left);
+                if(curr->right!=nullptr)q.push(curr->right);
+            }
+            else if(!q.empty())
+                q.push(nullptr);    // To mark end of level
+        }
+        
         return(ans);
     }
 };
+
+// T.C=O(N) ;   S.C=O(D)(D IS DIAMETER)(WORST CASE O(N))
+// ADDITONAL POINTS - LEFT VIEW OBTAINED SIMILARLY
