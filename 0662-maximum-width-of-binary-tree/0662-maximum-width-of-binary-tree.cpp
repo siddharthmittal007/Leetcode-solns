@@ -18,15 +18,15 @@ public:
             return(0);
 
         // level order traversal
-        long long s=0,e=0;
+        unsigned int s=0,e=0;
         int max_width=1;
-        queue<pair<TreeNode*,long long>> q;       // Queue of (Node,column)
-        q.push({root,0});                   // Push root
-        q.push({nullptr,NULL});             // Sentinel to mark EOL
+        queue<pair<TreeNode*,unsigned int>> q;      // Queue of (Node,column)
+        q.push({root,0});                           // Push root
+        q.push({nullptr,NULL});                     // Sentinel to mark EOL
         while(!q.empty())
         {
             TreeNode *curr=q.front().first;
-            long long col=q.front().second;
+            unsigned int col=q.front().second;
             q.pop();
 
             if(curr==nullptr)
