@@ -9,21 +9,19 @@
  */
 class Solution {
 public:
-    TreeNode* solve(TreeNode *curr,TreeNode* &lca,TreeNode *p,TreeNode *q)
+    TreeNode* solve(TreeNode *curr,TreeNode *&lca,TreeNode *p,TreeNode *q)
     {
+        // Returning if node is null or 'lca' already found
         if(curr==nullptr || lca!=nullptr)return(nullptr);
 
+        // Checking if 'curr' is 'lca'
         TreeNode *l=solve(curr->left,lca,p,q), *r=solve(curr->right,lca,p,q);
-        if(curr==p || curr==q)
-        {
-            if(l!=nullptr || r!=nullptr)
-                lca=curr;
-            return(curr);
-        }
-        else if(l!=nullptr && r!=nullptr)
+        if(((curr==p || curr==q) && (l!=nullptr || r!=nullptr))
+            || (l!=nullptr && r!=nullptr))
             lca=curr;
-
-        return(l!=nullptr?l:r);
+        
+        if(curr==p || curr==q)return(curr);
+        else return(l!=nullptr?l:r);
     }
     
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
