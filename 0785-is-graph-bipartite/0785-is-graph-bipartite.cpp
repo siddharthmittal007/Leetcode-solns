@@ -1,15 +1,21 @@
 class Solution {
 public:
-    void dfs(int u,vector<vector<int>>& graph,vector<int> &d,vector<int> &p,vector<bool> &visited,bool &oddCycle){
-        visited[u]=true;
-        for(int v : graph[u]){
-            if(oddCycle)return;
-            if(v!=p[u]){
-                if(!visited[v]){
-                    d[v]=d[u]+1, p[v]=u;
-                    dfs(v,graph,d,p,visited,oddCycle);
+    void bfs(int node,vector<vector<int>>& graph,vector<int> &d,vector<int> &p,vector<bool> &visited,bool &oddCycle){
+        queue<int> q;
+        q.push(node);
+        visited[node]=true;
+        
+        while(!q.empty() && !oddCycle){
+            int u=q.front(); q.pop();
+            for(int v : graph[u]){
+                if(oddCycle)return;
+                if(v!=p[u]){
+                    if(!visited[v]){
+                        d[v]=d[u]+1, p[v]=u;
+                        bfs(v,graph,d,p,visited,oddCycle);
+                    }
+                    else if((d[u]-d[v])%2==0)oddCycle=true;
                 }
-                else if((d[v]-d[u])%2==0)oddCycle=true;
             }
         }
     }
@@ -17,7 +23,7 @@ public:
     bool isBipartite(vector<vector<int>>& graph){
         const int n=graph.size();
 
-        // Checking if odd cycle(DFS)
+        // Checking if odd cycle(BFS)
         vector<int> d(n),p(n);
         vector<bool> visited(n,false);
         bool oddCycle=false;
@@ -25,7 +31,7 @@ public:
             if(oddCycle)break;
             if(!visited[i]){
                 d[i]=0, p[i]=-1;
-                dfs(i,graph,d,p,visited,oddCycle);
+                bfs(i,graph,d,p,visited,oddCycle);
             }
         }
         return(!oddCycle);
