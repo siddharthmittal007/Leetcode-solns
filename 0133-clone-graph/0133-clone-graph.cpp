@@ -43,7 +43,6 @@ public:
         // Ponters to nodes of each value
         vector<Node*> v(101,nullptr);
         // DFS cloning
-        Node *root=dfs(node,v);
-        return(root);
+        return(dfs(node,v));
     }
 };
